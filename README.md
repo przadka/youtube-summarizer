@@ -20,8 +20,13 @@ Before using this tool, you need:
 ## Installation
 
 ```bash
+pip install youtube-summarizer
+```
+
+Or from source:
+```bash
 git clone <repository-url>
-cd summarize-yt
+cd youtube-summarizer
 python3 -m venv .venv
 . .venv/bin/activate
 pip install -r requirements.txt
@@ -31,22 +36,22 @@ pip install -r requirements.txt
 
 Basic usage:
 ```bash
-python main.py "https://www.youtube.com/watch?v=VIDEO_ID"
+ytsumm "https://www.youtube.com/watch?v=VIDEO_ID"
 ```
 
 Advanced options:
 ```bash
 # Use different model and temperature
-python main.py -m "gpt-4" -t 0.7 "https://www.youtube.com/watch?v=VIDEO_ID"
+ytsumm -m "gpt-4" -t 0.7 "https://www.youtube.com/watch?v=VIDEO_ID"
 
 # Different language and audio format
-python main.py -l "es" --audio-format "mp3" "https://www.youtube.com/watch?v=VIDEO_ID"
+ytsumm -l "es" --audio-format "mp3" "https://www.youtube.com/watch?v=VIDEO_ID"
 
 # Custom prompt template
-python main.py --prompt-path "custom_prompt.md" "https://www.youtube.com/watch?v=VIDEO_ID"
+ytsumm --prompt-path "custom_prompt.md" "https://www.youtube.com/watch?v=VIDEO_ID"
 
 # Save to file and keep intermediate files
-python main.py -o summary.txt --keep-files "https://www.youtube.com/watch?v=VIDEO_ID"
+ytsumm -o summary.txt --keep-files "https://www.youtube.com/watch?v=VIDEO_ID"
 ```
 
 ## Configuration
@@ -79,18 +84,34 @@ export SUMMARIZE_YT_PROMPT_PATH="custom_prompt.md"
 
 Supported models include any LiteLLM-compatible model (gpt-3.5-turbo, gpt-4, claude-3, etc.)
 
-## Summary Output Format
-The summarizer produces structured output with video metadata, an overall summary, memorable quotes (with timestamps), and a detailed summary. The format is defined in `prompts/summarization.md` and can be customized as needed.
+## Example Output
 
-Example output structure:
 ```
 <summary>
-  <video_metadata>...</video_metadata>
-  <overall_summary>...</overall_summary>
-  <memorable_quotes>...</memorable_quotes>
-  <detailed_summary>...</detailed_summary>
+  <video_metadata>Title: Python Tutorial - Learn Python in 10 Minutes | Channel: TechCoder</video_metadata>
+  <overall_summary>A beginner-friendly Python tutorial covering variables, loops, and functions with practical examples.</overall_summary>
 </summary>
 ```
+
+
+## Performance & Cost
+- Typical processing time: ~2-3 minutes for a 30min video (depends on hardware and LLM API latency)
+- LLM costs vary by provider and model (cost estimates will be added in future releases)
+
+## Limitations
+- YouTube-only (no support for other video platforms)
+- Requires external `transcribe` CLI tool in PATH
+- English transcription works best; other languages may be less accurate
+
+## Contributing
+PRs welcome. Run tests first:
+```bash
+pytest tests/
+```
+Report issues on GitHub.
+
+## License
+MIT License. See [LICENSE](LICENSE) for details.
 
 ## Development
 
