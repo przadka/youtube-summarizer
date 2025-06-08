@@ -1,2 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.mypy_cache/
+.pytest_cache/
+
+# Virtual environments
 .venv/
-.pytest_cache/ 
+venv/
+ENV/
+
+# Editors/IDEs
+.idea/
+.vscode/
+*.swp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test and build artifacts
+test-results.txt
+coverage*
+
+# Misc
+*.log 
