@@ -8,10 +8,19 @@ def load_prompt_template() -> str:
 
 def summarize_transcript(transcript: str, model: str, video_metadata: Dict, quality_metrics: Dict) -> str:
     prompt_template = load_prompt_template()
+    
+    # Format upload_date from YYYYMMDD to YYYY-MM-DD
+    upload_date_raw = video_metadata.get("upload_date", "")
+    upload_date = ""
+    if upload_date_raw and len(upload_date_raw) == 8:
+        upload_date = f"{upload_date_raw[:4]}-{upload_date_raw[4:6]}-{upload_date_raw[6:8]}"
+    
     system_msg = prompt_template.format(
         title=video_metadata.get("title", ""),
-        duration=video_metadata.get("duration", ""),
+        duration_string=video_metadata.get("duration_string", ""),
         channel=video_metadata.get("channel", video_metadata.get("uploader", "")),
+        webpage_url=video_metadata.get("webpage_url", ""),
+        upload_date=upload_date,
         quality_bucket=quality_metrics.get("bucket", "UNSURE")
     )
     response = litellm.completion(

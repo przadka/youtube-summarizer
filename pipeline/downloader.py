@@ -57,9 +57,11 @@ def extract_video_metadata(url: str) -> Dict:
             "id": info.get("id"),
             "title": info.get("title"),
             "duration": info.get("duration"),
+            "duration_string": info.get("duration_string"),
             "channel": info.get("channel"),
             "uploader": info.get("uploader"),
             "webpage_url": info.get("webpage_url"),
+            "upload_date": info.get("upload_date"),
         }
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"yt-dlp metadata extraction failed: {e.stderr if e.stderr else e}")
