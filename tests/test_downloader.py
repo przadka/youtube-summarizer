@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import patch, MagicMock
 from pathlib import Path
-import pipeline.downloader as downloader
+from summarize_yt.pipeline import downloader
 import tempfile
 import subprocess
 
@@ -22,7 +22,7 @@ def test_extract_video_metadata_failure():
 
 def test_download_audio_file_not_found():
     # Patch extract_video_metadata to return a fake id
-    with patch('pipeline.downloader.extract_video_metadata') as mock_meta:
+    with patch('summarize_yt.pipeline.downloader.extract_video_metadata') as mock_meta:
         mock_meta.return_value = {"id": "notfound"}
         with patch('subprocess.run'):
             with tempfile.TemporaryDirectory() as tmpdir:
@@ -30,7 +30,7 @@ def test_download_audio_file_not_found():
                     downloader.download_audio("http://yt", Path(tmpdir))
 
 # Test success path
-@patch('pipeline.downloader.subprocess.run')
+@patch('summarize_yt.pipeline.downloader.subprocess.run')
 def test_downloader_success(mock_run):
     mock_run.return_value = MagicMock(returncode=0, stdout='', stderr='')
     # Provide minimal video_metadata for filename
@@ -40,7 +40,7 @@ def test_downloader_success(mock_run):
         assert meta['id'] == 'testid'
 
 # Test stderr handling
-@patch('pipeline.downloader.subprocess.run')
+@patch('summarize_yt.pipeline.downloader.subprocess.run')
 def test_downloader_stderr(mock_run):
     mock_run.side_effect = subprocess.CalledProcessError(1, 'cmd', stderr=b'yt-dlp error')
     video_metadata = {'id': 'testid'}
@@ -48,7 +48,7 @@ def test_downloader_stderr(mock_run):
         downloader.download_audio('video_url', output_dir=Path('/tmp'), video_metadata=video_metadata)
 
 # Test FileNotFoundError
-@patch('pipeline.downloader.subprocess.run')
+@patch('summarize_yt.pipeline.downloader.subprocess.run')
 def test_downloader_file_not_found(mock_run):
     mock_run.return_value = MagicMock(returncode=0, stdout='', stderr='')
     video_metadata = {'id': 'testid'}
@@ -57,7 +57,7 @@ def test_downloader_file_not_found(mock_run):
             downloader.download_audio('video_url', output_dir=Path('/tmp'), video_metadata=video_metadata)
 
 # Test JSON parsing error
-@patch('pipeline.downloader.subprocess.run')
+@patch('summarize_yt.pipeline.downloader.subprocess.run')
 def test_downloader_json_error(mock_run):
     mock_run.return_value = MagicMock(returncode=0, stdout='not json', stderr='')
     with pytest.raises(RuntimeError, match='Failed to parse yt-dlp JSON output.'):

@@ -1,7 +1,7 @@
 import os
 
 # LLM Model
-DEFAULT_MODEL = os.getenv("SUMMARIZE_YT_MODEL", "gpt-4.1-mini")
+DEFAULT_MODEL = os.getenv("SUMMARIZE_YT_MODEL", "gpt-4o-mini")
 
 # LLM Temperature
 DEFAULT_TEMPERATURE = float(os.getenv("SUMMARIZE_YT_TEMPERATURE", "0.3"))

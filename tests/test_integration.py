@@ -1,6 +1,6 @@
 import os
 import pytest
-import pipeline.downloader as downloader
+from summarize_yt.pipeline import downloader
 
 pytestmark = pytest.mark.skipif(
     not os.environ.get("RUN_INTEGRATION_TESTS"),

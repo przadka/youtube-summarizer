@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import patch
-import pipeline.summarizer as summarizer
+from summarize_yt.pipeline import summarizer
 
 # Example: test successful summarization
 @patch('litellm.completion')

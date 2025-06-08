@@ -42,7 +42,10 @@ ytsumm "https://www.youtube.com/watch?v=VIDEO_ID"
 Advanced options:
 ```bash
 # Use different model and temperature
-ytsumm -m "gpt-4" -t 0.7 "https://www.youtube.com/watch?v=VIDEO_ID"
+ytsumm -m "gpt-4o" -t 0.7 "https://www.youtube.com/watch?v=VIDEO_ID"
+
+# Use Claude model
+ytsumm -m "claude-3-5-sonnet-20240620" "https://www.youtube.com/watch?v=VIDEO_ID"
 
 # Different language and audio format
 ytsumm -l "es" --audio-format "mp3" "https://www.youtube.com/watch?v=VIDEO_ID"
@@ -66,7 +69,7 @@ export OPENAI_API_KEY="your-key-here"
 ### Environment Variables
 Customize defaults via environment variables:
 ```bash
-export SUMMARIZE_YT_MODEL="gpt-4"
+export SUMMARIZE_YT_MODEL="gpt-4o"
 export SUMMARIZE_YT_TEMPERATURE="0.7"
 export SUMMARIZE_YT_LANGUAGE="es"
 export SUMMARIZE_YT_AUDIO_FORMAT="mp3"
@@ -74,7 +77,7 @@ export SUMMARIZE_YT_PROMPT_PATH="custom_prompt.md"
 ```
 
 ### CLI Options
-- `-m, --model`: LLM model (default: gpt-4.1-mini)
+- `-m, --model`: LLM model (default: gpt-4o-mini)
 - `-t, --temperature`: LLM temperature 0.0-1.0 (default: 0.3)
 - `-l, --language`: Audio language code (default: en)
 - `--audio-format`: Audio format (default: wav)
@@ -82,7 +85,10 @@ export SUMMARIZE_YT_PROMPT_PATH="custom_prompt.md"
 - `-o, --output`: Output file path
 - `--keep-files`: Keep downloaded audio files
 
-Supported models include any LiteLLM-compatible model (gpt-3.5-turbo, gpt-4, claude-3, etc.)
+Supported models include any LiteLLM-compatible model:
+- OpenAI: `gpt-4o`, `gpt-4o-mini`, `gpt-4-turbo`, `gpt-3.5-turbo`
+- Anthropic: `claude-3-5-sonnet-20240620`, `claude-3-haiku-20240307`
+- And many others via LiteLLM
 
 ## Example Output
 

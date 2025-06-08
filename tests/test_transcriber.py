@@ -1,11 +1,11 @@
 import pytest
 from unittest.mock import patch, MagicMock, mock_open
-import pipeline.transcriber as transcriber
+from summarize_yt.pipeline import transcriber
 import subprocess
 from pathlib import Path
 
 # Example: test successful transcription
-@patch('pipeline.transcriber.subprocess.run')
+@patch('summarize_yt.pipeline.transcriber.subprocess.run')
 def test_transcribe_success(mock_run):
     mock_run.return_value = MagicMock(returncode=0, stdout='', stderr='')
     audio_file = Path('audio.wav')
@@ -17,7 +17,7 @@ def test_transcribe_success(mock_run):
                 assert quality['bucket'] == 'GOOD'
 
 # Example: test subprocess failure
-@patch('pipeline.transcriber.subprocess.run')
+@patch('summarize_yt.pipeline.transcriber.subprocess.run')
 def test_transcribe_subprocess_error(mock_run):
     mock_run.side_effect = subprocess.CalledProcessError(1, 'cmd')
     audio_file = Path('audio.wav')
@@ -25,7 +25,7 @@ def test_transcribe_subprocess_error(mock_run):
         transcriber.transcribe_with_existing_script(audio_file)
 
 # Example: test missing transcript file
-@patch('pipeline.transcriber.subprocess.run')
+@patch('summarize_yt.pipeline.transcriber.subprocess.run')
 def test_transcribe_missing_transcript(mock_run):
     mock_run.return_value = MagicMock(returncode=0, stdout='', stderr='')
     audio_file = Path('audio.wav')
