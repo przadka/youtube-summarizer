@@ -1,6 +1,5 @@
 import os
 import pytest
-from pathlib import Path
 import pipeline.downloader as downloader
 
 pytestmark = pytest.mark.skipif(

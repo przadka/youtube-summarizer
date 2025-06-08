@@ -23,7 +23,7 @@ def test_download_audio_file_not_found():
     # Patch extract_video_metadata to return a fake id
     with patch('pipeline.downloader.extract_video_metadata') as mock_meta:
         mock_meta.return_value = {"id": "notfound"}
-        with patch('subprocess.run') as mock_run:
+        with patch('subprocess.run'):
             with tempfile.TemporaryDirectory() as tmpdir:
                 with pytest.raises(FileNotFoundError):
                     downloader.download_audio("http://yt", Path(tmpdir)) 
