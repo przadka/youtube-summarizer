@@ -9,6 +9,53 @@ A CLI tool to download, transcribe, and summarize YouTube videos using LLMs.
 - Summarize transcripts with LLMs
 - Modular, testable pipeline
 
+## Prerequisites
+
+Before using this tool, you need:
+
+1. **yt-dlp**: Install via `pip install yt-dlp` or your package manager
+2. **transcribe CLI tool**: External transcription script (must be in PATH)
+3. **LLM API access**: OpenAI, Anthropic, or other LiteLLM-supported provider
+
+## Installation
+
+```bash
+git clone <repository-url>
+cd summarize-yt
+python3 -m venv .venv
+. .venv/bin/activate
+pip install -r requirements.txt
+```
+
+## Usage
+
+Basic usage:
+```bash
+python main.py "https://www.youtube.com/watch?v=VIDEO_ID"
+```
+
+With options:
+```bash
+# Use different model
+python main.py -m "gpt-4" "https://www.youtube.com/watch?v=VIDEO_ID"
+
+# Save to file
+python main.py -o summary.txt "https://www.youtube.com/watch?v=VIDEO_ID"
+
+# Keep downloaded audio files
+python main.py --keep-files "https://www.youtube.com/watch?v=VIDEO_ID"
+```
+
+## Configuration
+
+Set your LLM API key:
+```bash
+export OPENAI_API_KEY="your-key-here"
+# or for other providers, see LiteLLM documentation
+```
+
+Supported models include any LiteLLM-compatible model (gpt-3.5-turbo, gpt-4, claude-3, etc.)
+
 ## Summary Output Format
 The summarizer produces structured output with video metadata, an overall summary, memorable quotes (with timestamps), and a detailed summary. The format is defined in `prompts/summarization.md` and can be customized as needed.
 
