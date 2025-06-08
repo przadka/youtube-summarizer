@@ -1,4 +1,35 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [tool.ruff]
 target-version = "py310"
 line-length = 100
-exclude = [".venv", "__pycache__"] 
+exclude = [".venv", "__pycache__"]
+
+[project]
+name = "summarize-yt"
+version = "0.1.0"
+description = "YouTube video summarizer CLI"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    { name="Your Name", email="your@email.com" }
+]
+dependencies = [
+    "click>=8.0.0",
+    "yt-dlp>=2023.1.0",
+    "litellm>=1.0.0",
+    "python-dotenv>=1.0.0",
+    "assemblyai>=0.17.0"
+]
+
+[project.scripts]
+summarize-yt = "summarize_yt.main:summarize_video"
+
+[project.urls]
+Homepage = "https://github.com/yourusername/summarize-yt"
+Repository = "https://github.com/yourusername/summarize-yt"
+
+[tool.setuptools]
+packages = ["summarize_yt", "summarize_yt.pipeline"] 

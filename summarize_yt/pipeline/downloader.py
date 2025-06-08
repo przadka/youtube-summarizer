@@ -3,7 +3,7 @@ import tempfile
 from pathlib import Path
 from typing import Dict, Optional
 import json
-import pipeline.config as config
+from . import config
 
 def download_audio(
     url: str,

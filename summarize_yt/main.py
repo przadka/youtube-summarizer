@@ -1,9 +1,6 @@
 import click
 import sys
-import pipeline.downloader as downloader
-import pipeline.transcriber as transcriber
-import pipeline.summarizer as summarizer
-import pipeline.config as config
+from summarize_yt.pipeline import downloader, transcriber, summarizer, config
 
 @click.command()
 @click.argument("youtube_url")

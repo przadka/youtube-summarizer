@@ -2,7 +2,7 @@ import subprocess
 import json
 from pathlib import Path
 from typing import Tuple
-import pipeline.config as config
+from . import config
 
 def transcribe_with_existing_script(audio_file: Path, language: str = None) -> Tuple[str, dict]:
     """

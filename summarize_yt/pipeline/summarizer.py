@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Dict
 import litellm
-import pipeline.config as config
+from . import config
 
 def load_prompt_template(prompt_path: str = None) -> str:
     if prompt_path is None:
