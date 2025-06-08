@@ -1,6 +1,7 @@
 ============================= test session starts ==============================
 platform linux -- Python 3.10.12, pytest-8.4.0, pluggy-1.6.0
 rootdir: /home/michal/dev/summarize-yt
+configfile: pyproject.toml
 plugins: anyio-4.9.0, mock-3.14.1
 collected 4 items
 

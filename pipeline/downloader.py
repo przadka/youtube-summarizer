@@ -4,10 +4,11 @@ from pathlib import Path
 from typing import Dict, Optional
 import json
 
-def download_audio(url: str, output_dir: Path = None) -> tuple[Path, Optional[tempfile.TemporaryDirectory]]:
+def download_audio(url: str, output_dir: Path = None, video_metadata: Optional[Dict] = None) -> tuple[Path, Optional[tempfile.TemporaryDirectory], Dict]:
     """
     Download YouTube video as WAV audio using yt-dlp.
-    Returns (audio_file_path, temp_dir_object or None).
+    Returns (audio_file_path, temp_dir_object or None, video_metadata dict).
+    If video_metadata is provided, uses its 'id' for the output filename.
     """
     if output_dir is None:
         temp_dir = tempfile.TemporaryDirectory()
@@ -17,7 +18,10 @@ def download_audio(url: str, output_dir: Path = None) -> tuple[Path, Optional[te
         output_dir.mkdir(parents=True, exist_ok=True)
         temp_dir = None
 
-    output_template = output_dir / "%(id)s.%(ext)s"
+    if video_metadata is None:
+        video_metadata = extract_video_metadata(url)
+    video_id = video_metadata.get("id")
+    output_template = output_dir / f"{video_id}.%(ext)s"
     cmd = [
         "yt-dlp",
         "-f", "bestaudio",
@@ -31,14 +35,11 @@ def download_audio(url: str, output_dir: Path = None) -> tuple[Path, Optional[te
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"yt-dlp failed: {e.stderr.decode() if e.stderr else e}")
 
-    # Find the downloaded file (yt-dlp names it with video id)
-    info = extract_video_metadata(url)
-    video_id = info.get("id")
     audio_file = output_dir / f"{video_id}.wav"
     if not audio_file.exists():
         raise FileNotFoundError(f"Audio file not found: {audio_file}")
 
-    return audio_file, temp_dir
+    return audio_file, temp_dir, video_metadata
 
 def extract_video_metadata(url: str) -> Dict:
     """

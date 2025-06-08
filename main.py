@@ -9,15 +9,14 @@ import pipeline.summarizer as summarizer
 @click.option("--model", "-m", default="gpt-3.5-turbo", help="LLM model to use")
 @click.option("--output", "-o", type=click.Path(), help="Output file path")
 @click.option("--keep-files", is_flag=True, help="Keep downloaded audio files")
-@click.option("--format", type=click.Choice(["markdown", "json", "text"]), default="markdown")
-def summarize_video(youtube_url, model, output, keep_files, format):
+def summarize_video(youtube_url, model, output, keep_files):
     """Download, transcribe, and summarize a YouTube video."""
     temp_dir = None
     audio_file = None
+    video_metadata = None
     try:
         click.echo("[1/4] Downloading audio and extracting metadata...")
-        audio_file, temp_dir = downloader.download_audio(youtube_url)
-        video_metadata = downloader.extract_video_metadata(youtube_url)
+        audio_file, temp_dir, video_metadata = downloader.download_audio(youtube_url)
 
         click.echo("[2/4] Transcribing audio...")
         transcript, quality_metrics = transcriber.transcribe_with_existing_script(audio_file)
