@@ -4,7 +4,7 @@ import litellm
 import re
 
 def load_prompt_template() -> str:
-    prompt_path = Path("prompts/summarization.txt")
+    prompt_path = Path("prompts/summarization.md")
     return prompt_path.read_text(encoding="utf-8")
 
 def summarize_transcript(transcript: str, model: str, video_metadata: Dict, quality_metrics: Dict) -> str:
