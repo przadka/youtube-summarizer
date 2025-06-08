@@ -1,6 +1,4 @@
 import click
-from pathlib import Path
-import tempfile
 import sys
 import pipeline.downloader as downloader
 import pipeline.transcriber as transcriber

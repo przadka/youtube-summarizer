@@ -27,14 +27,4 @@ def summarize_transcript(transcript: str, model: str, video_metadata: Dict, qual
         ],
         temperature=0.3
     )
-    return response["choices"][0]["message"]["content"]
-
-    try:
-        response = litellm.completion(
-            model=model,
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.3
-        )
-        return response["choices"][0]["message"]["content"]
-    except Exception as e:
-        raise RuntimeError(f"LLM summarization failed: {e}") 
+    return response["choices"][0]["message"]["content"] 
