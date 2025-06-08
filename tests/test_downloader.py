@@ -61,4 +61,32 @@ def test_downloader_file_not_found(mock_run):
 def test_downloader_json_error(mock_run):
     mock_run.return_value = MagicMock(returncode=0, stdout='not json', stderr='')
     with pytest.raises(RuntimeError, match='Failed to parse yt-dlp JSON output.'):
-        downloader.extract_video_metadata('video_url') 
+        downloader.extract_video_metadata('video_url')
+
+def test_handle_local_file_not_found():
+    with pytest.raises(FileNotFoundError):
+        downloader.handle_local_file('/nonexistent/file.mp4')
+
+def test_handle_local_file_copies_and_metadata(tmp_path):
+    # Create a dummy file
+    dummy_file = tmp_path / 'testvideo.mp4'
+    dummy_file.write_bytes(b'data')
+    audio_file, temp_dir, meta = downloader.handle_local_file(str(dummy_file))
+    # File should be copied to temp dir
+    assert audio_file.exists()
+    assert audio_file.name == 'testvideo.mp4'
+    # Metadata should use filename as title/id
+    assert meta['id'] == 'testvideo'
+    assert meta['title'] == 'testvideo'
+    assert meta['duration'] is None
+    assert meta['webpage_url'] == ''
+    temp_dir.cleanup()
+
+def test_handle_local_file_audio_extension(tmp_path):
+    dummy_file = tmp_path / 'audiofile.wav'
+    dummy_file.write_bytes(b'data')
+    audio_file, temp_dir, meta = downloader.handle_local_file(str(dummy_file))
+    assert audio_file.exists()
+    assert audio_file.name == 'audiofile.wav'
+    assert meta['id'] == 'audiofile'
+    temp_dir.cleanup() 

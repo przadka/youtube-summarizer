@@ -18,17 +18,17 @@ pip install -r requirements-test.txt
 - Run single test: `.venv/bin/pytest tests/test_downloader.py::test_function_name`
 
 ### Linting
-- Check code style: `.venv/bin/ruff check pipeline tests main.py`
+- Check code style: `.venv/bin/ruff check summarize_yt tests`
 
 ## Architecture
 
-This is a modular YouTube video processing pipeline with three main stages:
+This is a modular video/audio processing pipeline with three main stages:
 
-1. **Downloader** (`pipeline/downloader.py`): Downloads YouTube audio via yt-dlp and extracts metadata
+1. **Downloader** (`pipeline/downloader.py`): Downloads YouTube audio via yt-dlp and extracts metadata, OR handles local audio/video files
 2. **Transcriber** (`pipeline/transcriber.py`): Calls external `transcribe` CLI tool to convert audio to text
 3. **Summarizer** (`pipeline/summarizer.py`): Uses LiteLLM to summarize transcripts with configurable models
 
-The main CLI (`main.py`) orchestrates these stages sequentially, with cleanup handling for temporary files.
+The main CLI (`main.py`) orchestrates these stages sequentially, with cleanup handling for temporary files. It automatically detects whether the input is a YouTube URL or local file path.
 
 ### Key Dependencies
 - **yt-dlp**: YouTube downloading (external binary required)
@@ -50,3 +50,4 @@ The summarization prompt template is in `prompts/summarization.md` and uses form
 - Integration tests require actual network access and external tools
 - Quality metrics from transcription are passed through to summarization
 - Tests verify configuration system works correctly
+- Tests cover both YouTube URL and local file processing paths

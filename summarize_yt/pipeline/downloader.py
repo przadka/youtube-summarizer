@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Dict, Optional
 import json
 from . import config
+import shutil
 
 def download_audio(
     url: str,
@@ -80,4 +81,29 @@ def extract_video_metadata(url: str) -> Dict:
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"yt-dlp metadata extraction failed: {e.stderr if e.stderr else e}")
     except json.JSONDecodeError:
-        raise RuntimeError("Failed to parse yt-dlp JSON output.") 
+        raise RuntimeError("Failed to parse yt-dlp JSON output.")
+
+def handle_local_file(input_path: str) -> tuple[Path, Optional[tempfile.TemporaryDirectory], Dict]:
+    """
+    Handle a local audio or video file. Copies to a temp dir if needed, returns (audio_file_path, temp_dir_object, video_metadata dict).
+    """
+    input_path = Path(input_path)
+    if not input_path.exists():
+        raise FileNotFoundError(f"Input file not found: {input_path}")
+    temp_dir = tempfile.TemporaryDirectory()
+    output_dir = Path(temp_dir.name)
+    # Copy file to temp dir to unify cleanup logic
+    dest_file = output_dir / input_path.name
+    shutil.copy2(str(input_path), str(dest_file))
+    # Minimal metadata
+    video_metadata = {
+        "id": input_path.stem,
+        "title": input_path.stem,
+        "duration": None,
+        "duration_string": "",
+        "channel": "",
+        "uploader": "",
+        "webpage_url": "",
+        "upload_date": "",
+    }
+    return dest_file, temp_dir, video_metadata 

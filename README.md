@@ -1,10 +1,10 @@
 # YouTube Summarizer
 
-A CLI tool to download, transcribe, and summarize YouTube videos using LLMs.
+A CLI tool to download, transcribe, and summarize YouTube videos or local audio/video files using LLMs.
 
 ## Features
-- Download YouTube videos as audio (WAV)
-- Extract video metadata
+- Download YouTube videos as audio (WAV) or process local audio/video files
+- Extract video metadata (YouTube) or generate basic metadata (local files)
 - Transcribe audio using an external script
 - Summarize transcripts with LLMs
 - Modular, testable pipeline
@@ -37,6 +37,8 @@ pip install -r requirements.txt
 Basic usage:
 ```bash
 ytsumm "https://www.youtube.com/watch?v=VIDEO_ID"
+# OR with a local file (audio or video)
+ytsumm "/path/to/local/file.mp4"
 ```
 
 Advanced options:
@@ -84,6 +86,7 @@ export SUMMARIZE_YT_PROMPT_PATH="custom_prompt.md"
 - `--prompt-path`: Custom prompt template path
 - `-o, --output`: Output file path
 - `--keep-files`: Keep downloaded audio files
+- `input_path`: YouTube URL or path to a local audio/video file
 
 Supported models include any LiteLLM-compatible model:
 - OpenAI: `gpt-4o`, `gpt-4o-mini`, `gpt-4-turbo`, `gpt-3.5-turbo`
@@ -105,7 +108,8 @@ Supported models include any LiteLLM-compatible model:
 - LLM costs vary by provider and model (cost estimates will be added in future releases)
 
 ## Limitations
-- YouTube-only (no support for other video platforms)
+- For video platforms: YouTube URLs only (no support for other video platforms)
+- Also supports local audio/video files (any format supported by the transcribe tool)
 - Requires external `transcribe` CLI tool in PATH
 - English transcription works best; other languages may be less accurate
 
@@ -143,7 +147,7 @@ pip install -r requirements-test.txt
 ### Linting
 - Lint the codebase with [ruff](https://docs.astral.sh/ruff/):
   ```bash
-  .venv/bin/ruff check pipeline tests main.py
+  .venv/bin/ruff check summarize_yt tests
   ```
 - Ruff is configured in `pyproject.toml`.
 
