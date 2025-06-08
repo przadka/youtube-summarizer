@@ -36,10 +36,17 @@ The main CLI (`main.py`) orchestrates these stages sequentially, with cleanup ha
 - **LiteLLM**: LLM interface supporting multiple providers
 - **Click**: CLI framework
 
+### Configuration System
+All configuration is centralized in `pipeline/config.py` with environment variable support:
+- Default values can be overridden via `SUMMARIZE_YT_*` environment variables
+- CLI options in `main.py` expose key parameters (model, temperature, language, etc.)
+- No hardcoded magic numbers - all constants are named and configurable
+
 ### Prompt System
-The summarization prompt template is in `prompts/summarization.md` and uses format strings for video metadata injection. The system splits this into system/user messages for the LLM.
+The summarization prompt template is in `prompts/summarization.md` and uses format strings for video metadata injection. The system splits this into system/user messages for the LLM. Template path is configurable via `--prompt-path` or `SUMMARIZE_YT_PROMPT_PATH`.
 
 ### Testing Strategy
 - Unit tests mock external dependencies (yt-dlp, transcribe CLI)
 - Integration tests require actual network access and external tools
 - Quality metrics from transcription are passed through to summarization
+- Tests verify configuration system works correctly

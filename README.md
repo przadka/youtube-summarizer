@@ -34,25 +34,48 @@ Basic usage:
 python main.py "https://www.youtube.com/watch?v=VIDEO_ID"
 ```
 
-With options:
+Advanced options:
 ```bash
-# Use different model
-python main.py -m "gpt-4" "https://www.youtube.com/watch?v=VIDEO_ID"
+# Use different model and temperature
+python main.py -m "gpt-4" -t 0.7 "https://www.youtube.com/watch?v=VIDEO_ID"
 
-# Save to file
-python main.py -o summary.txt "https://www.youtube.com/watch?v=VIDEO_ID"
+# Different language and audio format
+python main.py -l "es" --audio-format "mp3" "https://www.youtube.com/watch?v=VIDEO_ID"
 
-# Keep downloaded audio files
-python main.py --keep-files "https://www.youtube.com/watch?v=VIDEO_ID"
+# Custom prompt template
+python main.py --prompt-path "custom_prompt.md" "https://www.youtube.com/watch?v=VIDEO_ID"
+
+# Save to file and keep intermediate files
+python main.py -o summary.txt --keep-files "https://www.youtube.com/watch?v=VIDEO_ID"
 ```
 
 ## Configuration
 
+### API Keys
 Set your LLM API key:
 ```bash
 export OPENAI_API_KEY="your-key-here"
 # or for other providers, see LiteLLM documentation
 ```
+
+### Environment Variables
+Customize defaults via environment variables:
+```bash
+export SUMMARIZE_YT_MODEL="gpt-4"
+export SUMMARIZE_YT_TEMPERATURE="0.7"
+export SUMMARIZE_YT_LANGUAGE="es"
+export SUMMARIZE_YT_AUDIO_FORMAT="mp3"
+export SUMMARIZE_YT_PROMPT_PATH="custom_prompt.md"
+```
+
+### CLI Options
+- `-m, --model`: LLM model (default: gpt-4.1-mini)
+- `-t, --temperature`: LLM temperature 0.0-1.0 (default: 0.3)
+- `-l, --language`: Audio language code (default: en)
+- `--audio-format`: Audio format (default: wav)
+- `--prompt-path`: Custom prompt template path
+- `-o, --output`: Output file path
+- `--keep-files`: Keep downloaded audio files
 
 Supported models include any LiteLLM-compatible model (gpt-3.5-turbo, gpt-4, claude-3, etc.)
 
