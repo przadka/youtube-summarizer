@@ -36,7 +36,7 @@ pip install -r requirements.txt
 
 Basic usage:
 ```bash
-ytsumm "https://www.youtube.com/watch?v=VIDEO_ID"
+ytsumm "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 # OR with a local file (audio or video)
 ytsumm "/path/to/local/file.mp4"
 ```
@@ -44,19 +44,19 @@ ytsumm "/path/to/local/file.mp4"
 Advanced options:
 ```bash
 # Use different model and temperature
-ytsumm -m "gpt-4o" -t 0.7 "https://www.youtube.com/watch?v=VIDEO_ID"
+ytsumm -m "gpt-4o" -t 0.7 "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 
 # Use Claude model
-ytsumm -m "claude-3-5-sonnet-20240620" "https://www.youtube.com/watch?v=VIDEO_ID"
+ytsumm -m "claude-3-5-sonnet-20240620" "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 
 # Different language and audio format
-ytsumm -l "es" --audio-format "mp3" "https://www.youtube.com/watch?v=VIDEO_ID"
+ytsumm -l "es" --audio-format "mp3" "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 
 # Custom prompt template
-ytsumm --prompt-path "custom_prompt.md" "https://www.youtube.com/watch?v=VIDEO_ID"
+ytsumm --prompt-path "custom_prompt.md" "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 
 # Save to file and keep intermediate files
-ytsumm -o summary.txt --keep-files "https://www.youtube.com/watch?v=VIDEO_ID"
+ytsumm -o summary.txt --keep-files "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 ```
 
 ## Configuration
