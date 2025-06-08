@@ -1,13 +1,13 @@
 import subprocess
 import tempfile
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Optional
 import json
 
-def download_audio(url: str, output_dir: Path = None) -> Path:
+def download_audio(url: str, output_dir: Path = None) -> tuple[Path, Optional[tempfile.TemporaryDirectory]]:
     """
     Download YouTube video as WAV audio using yt-dlp.
-    Returns the path to the downloaded audio file.
+    Returns (audio_file_path, temp_dir_object or None).
     """
     if output_dir is None:
         temp_dir = tempfile.TemporaryDirectory()
@@ -38,9 +38,7 @@ def download_audio(url: str, output_dir: Path = None) -> Path:
     if not audio_file.exists():
         raise FileNotFoundError(f"Audio file not found: {audio_file}")
 
-    # If using a temp dir, attach it to the Path for later cleanup
-    audio_file.temp_dir = temp_dir if temp_dir else None
-    return audio_file
+    return audio_file, temp_dir
 
 def extract_video_metadata(url: str) -> Dict:
     """
