@@ -7,7 +7,7 @@ DEFAULT_MODEL = os.getenv("SUMMARIZE_YT_MODEL", "gpt-4o-mini")
 DEFAULT_TEMPERATURE = float(os.getenv("SUMMARIZE_YT_TEMPERATURE", "0.3"))
 
 # Prompt template path
-DEFAULT_PROMPT_PATH = os.getenv("SUMMARIZE_YT_PROMPT_PATH", "prompts/summarization.md")
+DEFAULT_PROMPT_PATH = os.getenv("SUMMARIZE_YT_PROMPT_PATH", None)
 
 # Audio settings
 DEFAULT_AUDIO_FORMAT = os.getenv("SUMMARIZE_YT_AUDIO_FORMAT", "wav")
