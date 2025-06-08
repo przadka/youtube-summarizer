@@ -5,8 +5,11 @@ from . import config
 
 def load_prompt_template(prompt_path: str = None) -> str:
     if prompt_path is None:
-        prompt_path = config.DEFAULT_PROMPT_PATH
-    prompt_path = Path(prompt_path)
+        # Always resolve relative to the package root
+        base_dir = Path(__file__).parent.parent.parent
+        prompt_path = base_dir / "prompts" / "summarization.md"
+    else:
+        prompt_path = Path(prompt_path)
     return prompt_path.read_text(encoding="utf-8")
 
 def summarize_transcript(
