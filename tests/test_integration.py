@@ -9,8 +9,8 @@ pytestmark = pytest.mark.skipif(
 
 def test_download_and_metadata_real():
     url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"  # Example video
-    audio_path = downloader.download_audio(url)
-    assert audio_path.exists()
+    audio_file, temp_dir, video_metadata = downloader.download_audio(url)
+    assert audio_file.exists()
     meta = downloader.extract_video_metadata(url)
     assert meta["title"]
     assert meta["id"] 
