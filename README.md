@@ -9,6 +9,19 @@ A CLI tool to download, transcribe, and summarize YouTube videos using LLMs.
 - Summarize transcripts with LLMs
 - Modular, testable pipeline
 
+## Summary Output Format
+The summarizer produces structured output with video metadata, an overall summary, memorable quotes (with timestamps), and a detailed summary. The format is defined in `prompts/summarization.md` and can be customized as needed.
+
+Example output structure:
+```
+<summary>
+  <video_metadata>...</video_metadata>
+  <overall_summary>...</overall_summary>
+  <memorable_quotes>...</memorable_quotes>
+  <detailed_summary>...</detailed_summary>
+</summary>
+```
+
 ## Development
 
 ### Setup
