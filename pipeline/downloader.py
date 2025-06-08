@@ -3,10 +3,17 @@ import tempfile
 from pathlib import Path
 from typing import Dict, Optional
 import json
+import pipeline.config as config
 
-def download_audio(url: str, output_dir: Path = None, video_metadata: Optional[Dict] = None) -> tuple[Path, Optional[tempfile.TemporaryDirectory], Dict]:
+def download_audio(
+    url: str,
+    output_dir: Path = None,
+    video_metadata: Optional[Dict] = None,
+    language: str = None,
+    audio_format: str = None
+) -> tuple[Path, Optional[tempfile.TemporaryDirectory], Dict]:
     """
-    Download YouTube video as WAV audio using yt-dlp.
+    Download YouTube video as audio using yt-dlp.
     Returns (audio_file_path, temp_dir_object or None, video_metadata dict).
     If video_metadata is provided, uses its 'id' for the output filename.
     """
@@ -22,20 +29,27 @@ def download_audio(url: str, output_dir: Path = None, video_metadata: Optional[D
         video_metadata = extract_video_metadata(url)
     video_id = video_metadata.get("id")
     output_template = output_dir / f"{video_id}.%(ext)s"
+
+    if language is None:
+        language = config.DEFAULT_LANGUAGE
+    if audio_format is None:
+        audio_format = config.DEFAULT_AUDIO_FORMAT
+
     cmd = [
-        "yt-dlp",
-        "-f", "bestaudio",
+        config.YTDLP_BIN,
+        "-f", config.DEFAULT_AUDIO_QUALITY,
         "--extract-audio",
-        "--audio-format", "wav",
+        "--audio-format", audio_format,
         "--output", str(output_template),
         url
     ]
+    # yt-dlp does not have a direct --language flag for audio, but you may want to add custom logic here if needed
     try:
         subprocess.run(cmd, check=True, capture_output=True)
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"yt-dlp failed: {e.stderr.decode() if e.stderr else e}")
 
-    audio_file = output_dir / f"{video_id}.wav"
+    audio_file = output_dir / f"{video_id}.{audio_format}"
     if not audio_file.exists():
         raise FileNotFoundError(f"Audio file not found: {audio_file}")
 
@@ -46,7 +60,7 @@ def extract_video_metadata(url: str) -> Dict:
     Extract video metadata (title, duration, channel, id, etc.) using yt-dlp.
     """
     cmd = [
-        "yt-dlp",
+        config.YTDLP_BIN,
         "--dump-json",
         url
     ]
