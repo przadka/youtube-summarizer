@@ -29,7 +29,6 @@ Please follow these steps:
 - Detailed Summary  
   Provide a fuller narrative that expands on the initial overview, including additional details, nuances, and, when helpful, rough time-anchored section headings such as “0:00 – 4:15 Introduction …”.
 
-Chain-of-thought (keep hidden)  
 Before producing your final output, wrap your internal preparation in <summary_preparation> tags:
 
 <summary_preparation>
